@@ -1,0 +1,45 @@
+#elem01 {
+    color: darkblue;
+}
+
+#elem02 {
+    color: red;
+}
+
+#elem03{
+    color: gold;
+}
+
+#elem04{
+    color:green;
+}
+
+h1{
+    font-size:25px;
+    margin-top: 30px;
+}
+
+p{
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+html{
+    font-family: 'Open Sans', sans-serif;
+    background-color: #00539F;
+}
+
+body{
+    width: 600px;
+    margin:0 auto;
+    background-color: darkseagreen;
+    padding: 30px 20px 20px 20px;
+    border: 5px solid black;
+}
+
+img{
+    display:block;
+    margin: 0 auto; /*centers the selected items*/
+    border-radius: 100%; /* crops the edges, rounds off the corners*/
+    border: 20px ridge gold;
+}
