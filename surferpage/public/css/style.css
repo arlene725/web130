@@ -41,5 +41,5 @@ img{
     display:block;
     margin: 0 auto; /*centers the selected items*/
     border-radius: 100%; /* crops the edges, rounds off the corners*/
-    border: 20px ridge gold;
+    border: 20px solid pink;
 }
