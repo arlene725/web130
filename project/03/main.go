@@ -27,6 +27,7 @@ func foo(w http.ResponseWriter, r *http.Request){
 		id, _ := uuid.NewV4()
 		cookie = &http.Cookie{
 		Name: "session-fino",
+		//storing the name and age into the cookie value
 		Value: id.String()+"|"+name+age,
 		//Secure: true,
 		HttpOnly: true,
