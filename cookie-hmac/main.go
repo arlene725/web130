@@ -39,7 +39,7 @@ func cookiehmac(res http.ResponseWriter, req *http.Request){
 					<input type = "submit">
 				</form>
 			</body>
-		</html>
+		</htmlcd>
 	`)
 }
 
