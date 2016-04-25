@@ -1,7 +1,7 @@
-//PROJECT STEP 8 - Allow the user to logout.
-//Show a log-in button when the user is not logged-in.
-//Show a log-out button only when the user is logged in.
 package main
+//PROJECT STEP 9 - A user should not be able to access
+//the form to upload user data when they are not logged in.
+
 
 import("fmt"
 	"net/http"
@@ -13,8 +13,9 @@ import("fmt"
 	"crypto/sha256"
 	"io"
 	"strings"
-	"log"
-)
+	"log")
+
+
 
 type user struct{
 	Name string
@@ -83,7 +84,7 @@ func login(res http.ResponseWriter, req *http.Request){
 		u:= decodeUser(cookie)
 		u.LogStatus = true
 		u.Name = req.FormValue("username")
-		////u.Age = req.FormValue("age")
+		u.Age = req.FormValue("age")
 
 		xs:= strings.Split(cookie.Value, "|")
 		id:= xs[0]
@@ -126,66 +127,66 @@ func decodeUser(c *http.Cookie) user {
 }
 
 
-	func newVisitor() *http.Cookie{
-		u := user{
+func newVisitor() *http.Cookie{
+	u := user{
 		Name:   "",
 		Age:  "",
 		LogStatus: false,
-		}
-		bs, err :=json.Marshal(u)
-		if err != nil{
+	}
+	bs, err :=json.Marshal(u)
+	if err != nil{
 		fmt.Println("error:", err)
 
-		}
-
-		id, _:= uuid.NewV4()
-		return makeCookie(bs, id.String())
 	}
 
+	id, _:= uuid.NewV4()
+	return makeCookie(bs, id.String())
+}
 
-	func currentVisitor(u user, id string) *http.Cookie{
-		bs, err :=json.Marshal(u)
-		if err != nil{
+
+func currentVisitor(u user, id string) *http.Cookie{
+	bs, err :=json.Marshal(u)
+	if err != nil{
 		fmt.Println("error:", err)
 
-		}
-		return makeCookie(bs, id)
 	}
+	return makeCookie(bs, id)
+}
 
-	func makeCookie(mm []byte, id string) *http.Cookie{
-		b64 := base64.URLEncoding.EncodeToString(mm)
-		code := getCode(b64)
-		cookie:= &http.Cookie{
+func makeCookie(mm []byte, id string) *http.Cookie{
+	b64 := base64.URLEncoding.EncodeToString(mm)
+	code := getCode(b64)
+	cookie:= &http.Cookie{
 		Name: "session-id",
 		Value: id + "|"+ b64 +"|"+code,
 		HttpOnly: true,
-		}
-
-		return cookie
 	}
 
-	func getCode(data string) string {
-		h := hmac.New(sha256.New, []byte("H3110w0rld"))
-		io.WriteString(h, data)
-		return fmt.Sprintf("%x", h.Sum(nil))
-	}
+	return cookie
+}
 
-	func tampered(s string) bool {
-		xs := strings.Split(s, "|")
-		usrData := xs[1]
-		usrCode := xs[2]
-		if usrCode != getCode(usrData) {
+func getCode(data string) string {
+	h := hmac.New(sha256.New, []byte("hi"))
+	io.WriteString(h, data)
+	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+func tampered(s string) bool {
+	xs := strings.Split(s, "|")
+	usrData := xs[1]
+	usrCode := xs[2]
+	if usrCode != getCode(usrData) {
 		return true
-		}
-		return false
 	}
+	return false
+}
 
-	func main(){
-		tpl, _ = template.ParseGlob("templates/*.html")
+func main() {
+	tpl, _ = template.ParseGlob("templates/*.html")
 
-		http.Handle("/favicon.ico", http.NotFoundHandler())
-		http.HandleFunc("/", index)
-		http.HandleFunc("/login", login)
-		http.HandleFunc("/logout", logout)
-		http.ListenAndServe(":8080", nil)
-	}
+	http.Handle("/favicon.ico", http.NotFoundHandler())
+	http.HandleFunc("/", index)
+	http.HandleFunc("/login", login)
+	http.HandleFunc("/logout", logout)
+	http.ListenAndServe(":8080", nil)
+}
