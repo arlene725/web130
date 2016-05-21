@@ -1,0 +1,1 @@
+this is a sample text file, created for this example file system that uses google cloud storage.
