@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Js list check</title>
+</head>
+<body>
+
+<div id="content"></div>
+<script type="text/javascript">
+    var unorderli = ["one", "two", "three", "four"];
+    document.getElementById('content').innerHTML = unorderli;
+</script>
+<p>List
+    <form action="javascript:userCheck()">
+<p>List item<br><input type="text" id="userNameInput"></p>
+<p> <input type="submit"></p>
+</p>
+</body>
+<script>
+    var redirect = function(url, method) {
+        var form = document.createElement('form');
+        form.method = method;
+        form.action = url;
+        form.submit();
+    };
+    function userCheck(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                if(xhttp.responseText == "exists"){
+                    alert("That Listname Already Exists.");
+                } else {
+                    unorderli = document.getElementById("userNameInput").value
+                    redirect('/register/?unorderli='+unorderli, 'post');
+                };
+            };
+        };
+        xhttp.open("GET", "/usernameexists/?unorderli=" + document.getElementById("userNameInput").value, true);
+        xhttp.send();
+    };
+</script>
+</html>
